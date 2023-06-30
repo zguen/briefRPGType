@@ -3,7 +3,7 @@ class Hero {
     private _name: string;
     private _power: number;
     private _life: number;
-    weapon: Weapon | undefined;
+    weapon!: Weapon;
 
     constructor(name: string, power: number, life: number) {
         this._name = name;
@@ -11,7 +11,7 @@ class Hero {
         this._life = life;
     }
 
-    public get name(): string {
+    getname(): string {
         return this._name;
     }
 
@@ -23,11 +23,11 @@ class Hero {
         return this._life;
     }
 
-    public set name(name: string) {
+    setname(name: string) {
         this._name = name;
     }
 
-    public set power(power: number) {
+    setpower(power: number) {
         this._power = power;
     }
 
@@ -36,7 +36,8 @@ class Hero {
     }
 
     attack(opponent: Hero): void {
-        this._life -= opponent._power;
+        const totalDamage: number = this._power + this.weapon.damage;
+        opponent.setlife(opponent.getlife() - totalDamage);
     }
 
     isAlive(): boolean {
@@ -47,14 +48,16 @@ class Hero {
 }
 class Weapon {
     name: string;
-    constructor(name: string) {
+    damage: number;
+    constructor(name: string, damage:number) {
         this.name = name;
+        this.damage = damage;
     }
 
 }
-const axe: Weapon = new Weapon("Axe");
-const sword: Weapon = new Weapon("Sword");
-const spear: Weapon = new Weapon("Spear");
+const axe: Weapon = new Weapon("Axe", 110);
+const sword: Weapon = new Weapon("Sword", 100);
+const spear: Weapon = new Weapon("Spear", 90);
 
 class HeroAxe extends Hero {
     constructor(name: string, power: number, life: number) {
@@ -114,12 +117,12 @@ function TapageDeGueule(hero1: Hero, hero2: Hero) {
     if (!hero1.isAlive() && !hero2.isAlive()) {
         console.log("Egalité bande de pingouins");
     } else if (hero1.isAlive()) {
-        console.log(`${hero1.name} est le grand et félicitable gagnant`);
+        console.log(`${hero1.getname()} est le grand et félicitable gagnant`);
     } else {
-        console.log(`C'est ${hero2.name} qui a gagné le golo golo`);
+        console.log(`C'est ${hero2.getname()} qui a gagné le golo golo`);
     };
 };
 
 TapageDeGueule(hero1, hero2); 
 
-
+console.log(hero1);
